@@ -1,0 +1,127 @@
+<div class="container py-5">
+  <!-- Encabezado moderno -->
+  <div class="row mb-4 align-items-center">
+    <div class="col">
+      <h1 class="fw-bold text-dark mb-1">📋 Panel de Tareas</h1>
+      <p class="text-muted mb-0">Administra tus pendientes de forma eficiente y conectada a Go.</p>
+    </div>
+  </div>
+
+  <!-- Formulario para crear tareas -->
+  <div class="card border-0 shadow-sm rounded-4 mb-4 p-4">
+    <h5 class="fw-bold text-dark mb-3">Crear Nueva Tarea</h5>
+
+    <form [formGroup]="tareaForm" (ngSubmit)="guardarTarea()">
+      <div class="row g-3">
+        <div class="col-md-4">
+          <label class="form-label text-secondary fw-semibold">Título</label>
+          <input type="text" formControlName="titulo" class="form-control rounded-3" placeholder="Ej. Estudiar Go">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label text-secondary fw-semibold">Descripción</label>
+          <input type="text" formControlName="descripcion" class="form-control rounded-3" placeholder="Ej. Repasar rutas API REST">
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+          <button type="submit" [disabled]="tareaForm.invalid" class="btn btn-dark w-100 rounded-3 py-2 fw-semibold">
+            Guardar
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- NUEVO: Barra de Búsqueda (La colocamos justo arriba de la tabla) -->
+  <div class="mb-4">
+    <input 
+      type="text" 
+      [formControl]="buscadorControl" 
+      class="form-control form-control-lg rounded-3 shadow-sm border-0" 
+      placeholder="🔍 Buscar tareas por título o descripción...">
+  </div>
+
+  <!-- Tarjeta principal con la tabla de tareas -->
+  <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-light text-uppercase fs-7 text-secondary">
+            <tr>
+              <th class="py-3 ps-4">ID</th>
+              <th class="py-3">Título</th>
+              <th class="py-3">Descripción</th>
+              <th class="py-3 text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (tarea of tareas$ | async; track tarea.id_tarea) {
+            <tr>
+              <td class="ps-4 fw-semibold text-secondary">#{{ tarea.id_tarea }}</td>
+              
+              <!-- NUEVO: Columna Título con Modo Edición -->
+              <td>
+                @if (editandoId === tarea.id_tarea) {
+                  <input type="text" [(ngModel)]="tituloEditado" class="form-control form-control-sm border-primary">
+                } @else {
+                  <span class="fw-bold text-dark">{{ tarea.titulo }}</span>
+                }
+              </td>
+
+              <!-- NUEVO: Columna Descripción con Modo Edición -->
+              <td>
+                @if (editandoId === tarea.id_tarea) {
+                  <input type="text" [(ngModel)]="descripcionEditada" class="form-control form-control-sm border-primary">
+                } @else {
+                  <span class="text-muted">{{ tarea.descripcion }}</span>
+                }
+              </td>
+
+              <!-- NUEVO: Columna Acciones / Estado combinada -->
+              <td class="text-center">
+                <div class="d-flex align-items-center justify-content-center gap-2">
+                  
+                  <!-- Si estamos en modo edición, mostramos Guardar y Cancelar -->
+                  @if (editandoId === tarea.id_tarea) {
+                    <button (click)="guardarEdicion(tarea)" class="btn btn-success btn-sm px-3 rounded-pill fw-semibold">Guardar</button>
+                    <button (click)="cancelarEdicion()" class="btn btn-secondary btn-sm px-3 rounded-pill fw-semibold">Cancelar</button>
+                  } 
+                  <!-- Si NO estamos en modo edición, mostramos las acciones normales -->
+                  @else {
+                    <!-- Botón de Editar -->
+                    <button (click)="iniciarEdicion(tarea)" class="btn btn-outline-secondary btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;" title="Editar tarea">
+                      ✏️
+                    </button>
+
+                    <!-- Botón de estado -->
+                    @if (tarea.completada) {
+                      <button (click)="toggleCompletada(tarea)" class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill fw-semibold border-0" style="cursor: pointer;" title="Marcar como pendiente">
+                        Completada ✓
+                      </button>
+                    } @else {
+                      <button (click)="toggleCompletada(tarea)" class="badge bg-danger px-3 py-2 rounded-pill fw-semibold text-white border-0" style="cursor: pointer;" title="Marcar como completada">
+                        Pendiente ⏳
+                      </button>
+                    }
+
+                    <!-- Botón de eliminar -->
+                    <button (click)="eliminarTarea(tarea.id_tarea)" class="btn btn-outline-danger btn-sm rounded-circle d-flex align-items-center justify-content-center" style="width: 32px; height: 32px;" title="Eliminar tarea">
+                      🗑️
+                    </button>
+                  }
+                </div>
+              </td>
+            </tr>
+            } @empty {
+            <tr>
+              <td colspan="4" class="text-center py-5 text-muted">
+                <div class="py-4">
+                  <p class="mb-0 fs-5">No hay tareas registradas por el momento.</p>
+                </div>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
