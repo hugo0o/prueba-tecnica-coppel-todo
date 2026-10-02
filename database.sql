@@ -1,0 +1,8 @@
+CREATE TABLE tareas(
+id_tarea SERIAL primary key,
+tituo VARCHAR(150) NOT NULL,
+descripcion TEXT,
+completada BOOLEAN NOT NULL DEFAULT FALSE,
+fecha_creacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+fecha_actualizacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
