@@ -1,3 +1,4 @@
+--CREATE DATABASE todo_coppel
 CREATE TABLE tareas(
 id_tarea SERIAL primary key,
 tituo VARCHAR(150) NOT NULL,
