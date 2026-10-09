@@ -18,11 +18,11 @@ export class AppComponent implements OnInit {
   // --- VARIABLES PARA EL BUSCADOR ---
   buscadorControl = new FormControl('');
 
-  // 3. LA CORRECCIÓN: Agregamos startWith('') para que la tabla cargue de inicio
+  // 3. starwith('') es necesario para que el buscador funcione correctamente desde el inicio, ya que de lo contrario no emitirá ningún valor hasta que el usuario escriba algo.
   tareas$: Observable<Tarea[]> = combineLatest([
     this.refresh$.pipe(switchMap(() => this.tareaService.getTareas())),
     this.buscadorControl.valueChanges.pipe(
-      startWith(''), // <--- Esta es la magia que soluciona el problema
+      startWith(''), 
       debounceTime(300),
       distinctUntilChanged()
     )
@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
       titulo: ['', [Validators.required]],
       descripcion: ['', [Validators.required]]
     });
-  }
+  }    
 
   ngOnInit(): void {}
 

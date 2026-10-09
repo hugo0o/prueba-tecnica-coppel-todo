@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-// Definimos la interfaz Tarea para tipar los objetos que manejaremos
+// Interfaz Tarea para tipar los objetos que manipulamos en el frontend. Esto nos ayuda a tener autocompletado y validación de tipos.
 export interface Tarea {
   id_tarea?: number;
   titulo: string;
@@ -16,10 +16,10 @@ export interface Tarea {
   providedIn: 'root'
 })
 export class TareaService {
-  // 2. Definimos la URL base de nuestra API
+  // 2. URL base de nuestra API
   private apiUrl = 'http://localhost:8080/tareas';
 
-  // 3. Inyectamos HttpClient en el constructor para poder hacer peticiones HTTP
+  // 3. Inyectar HttpClient en el constructor para poder hacer peticiones HTTP
   constructor(private http: HttpClient) { }
 
   // GET: Consultar tareas (usando las 2 funciones extra que agregamos)

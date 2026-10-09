@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 
-	// Importamos los otros paquetes de tu proyecto
+	// Paquetes del proyecto
 	"todolist-backend/database"
 	"todolist-backend/models"
 )
@@ -38,7 +38,7 @@ func TareasHandler(w http.ResponseWriter, r *http.Request) {
 
 // Empieza con minúscula porque solo se usa dentro de este archivo
 func getTareas(w http.ResponseWriter, r *http.Request) {
-	// Iniciamos con la consulta base y luego agregamos filtros dinámicamente
+	// Inicio con la consulta base y luego agrego filtros dinámicamente
 	baseQuery := `SELECT id_tarea, titulo, descripcion, completada, fecha_creacion, fecha_actualizacion FROM tareas WHERE 1=1`
 
 	// Arreglo para guardar los valores de los parámetros dinámicos
@@ -65,7 +65,7 @@ func getTareas(w http.ResponseWriter, r *http.Request) {
 		paramIndex++
 	}
 
-	// Siempre ordenamos para que la vista sea consistente
+	//  ordenar por id_tarea de manera ascendente
 	baseQuery += " ORDER BY id_tarea ASC"
 
 	// Ejecutamos la consulta pasándole el arreglo de argumentos desenpaquetado (args...)
@@ -151,7 +151,7 @@ func eliminarTarea(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// 2. Ejecutamos el DELETE
+	// 2. Ejecutar el DELETE
 	sqlStatement := `DELETE FROM tareas WHERE id_tarea = $1`
 	_, err := database.DB.Exec(sqlStatement, id)
 	if err != nil {

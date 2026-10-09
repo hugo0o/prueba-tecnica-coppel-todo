@@ -30,7 +30,7 @@
     </form>
   </div>
 
-  <!-- NUEVO: Barra de Búsqueda (La colocamos justo arriba de la tabla) -->
+  <!--Barra de Búsqueda-->
   <div class="mb-4">
     <input 
       type="text" 
@@ -39,7 +39,7 @@
       placeholder="🔍 Buscar tareas por título o descripción...">
   </div>
 
-  <!-- Tarjeta principal con la tabla de tareas -->
+  <!-- Encabezado de la tabla -->
   <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
     <div class="card-body p-0">
       <div class="table-responsive">
@@ -57,7 +57,7 @@
             <tr>
               <td class="ps-4 fw-semibold text-secondary">#{{ tarea.id_tarea }}</td>
               
-              <!-- NUEVO: Columna Título con Modo Edición -->
+              <!--Columna Título con Modo Edición -->
               <td>
                 @if (editandoId === tarea.id_tarea) {
                   <input type="text" [(ngModel)]="tituloEditado" class="form-control form-control-sm border-primary">
@@ -66,7 +66,7 @@
                 }
               </td>
 
-              <!-- NUEVO: Columna Descripción con Modo Edición -->
+              <!--Columna Descripción con Modo Edición -->
               <td>
                 @if (editandoId === tarea.id_tarea) {
                   <input type="text" [(ngModel)]="descripcionEditada" class="form-control form-control-sm border-primary">
@@ -75,11 +75,11 @@
                 }
               </td>
 
-              <!-- NUEVO: Columna Acciones / Estado combinada -->
+              <!-- Columna Acciones / Estado combinada -->
               <td class="text-center">
                 <div class="d-flex align-items-center justify-content-center gap-2">
                   
-                  <!-- Si estamos en modo edición, mostramos Guardar y Cancelar -->
+                  <!-- si es modo edición se muestra lo siguiente-->
                   @if (editandoId === tarea.id_tarea) {
                     <button (click)="guardarEdicion(tarea)" class="btn btn-success btn-sm px-3 rounded-pill fw-semibold">Guardar</button>
                     <button (click)="cancelarEdicion()" class="btn btn-secondary btn-sm px-3 rounded-pill fw-semibold">Cancelar</button>
