@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-// 1. Importamos FormsModule y FormControl para el buscador y la edición
+// FormsModule y FormControl para el buscador y la edición
 import { ReactiveFormsModule, FormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { TareaService, Tarea } from './services/tarea.service';
-// 2. IMPORTANTE: Agregamos startWith, combineLatest, map, debounceTime, distinctUntilChanged
+// Agregamos startWith, combineLatest, map, debounceTime, distinctUntilChanged
 import { Observable, BehaviorSubject, combineLatest, switchMap, map, debounceTime, distinctUntilChanged, startWith } from 'rxjs';
 
 @Component({
@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
   // --- VARIABLES PARA EL BUSCADOR ---
   buscadorControl = new FormControl('');
 
-  // 3. starwith('') es necesario para que el buscador funcione correctamente desde el inicio, ya que de lo contrario no emitirá ningún valor hasta que el usuario escriba algo.
+  //starwith('') es necesario para que el buscador funcione correctamente desde el inicio, ya que de lo contrario no emitirá ningún valor hasta que el usuario escriba algo.
   tareas$: Observable<Tarea[]> = combineLatest([
     this.refresh$.pipe(switchMap(() => this.tareaService.getTareas())),
     this.buscadorControl.valueChanges.pipe(
